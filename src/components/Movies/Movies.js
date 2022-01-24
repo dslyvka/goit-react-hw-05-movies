@@ -1,5 +1,5 @@
 import { onBtnClick } from '../../services';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 export default function Movies() {
@@ -7,7 +7,12 @@ export default function Movies() {
   const [movies, setMovies] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-  // console.log(location);
+  console.log(location);
+
+  if (location.search !== '' && movies === null) {
+    console.log(location.search.slice(7));
+    onBtnClick(location.search.slice(7)).then(res => setMovies(res.results));
+  }
 
   if (movies === null)
     return (
