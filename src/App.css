@@ -36,5 +36,51 @@
     transform: rotate(360deg);
   }
 } */
+img {
+  display: block;
+}
 
+.link {
+  font-size: 20px;
+  font-weight: 500;
 
+  padding: 7px 10px;
+}
+
+.link:not(:last-child),
+.additional:not(:last-child) {
+  margin-right: 5px;
+  margin-left: 5px;
+  text-decoration: none;
+}
+
+.link:visited,
+.additional:visited {
+  color: black;
+}
+
+.link:hover,
+.back:hover,
+.additional:hover {
+  color: coral;
+}
+
+.active.link {
+  color: red;
+}
+
+.back {
+  text-decoration: none;
+
+  color: black;
+  border: 1px solid;
+
+  font-size: 20px;
+
+  padding: 2px 5px;
+  margin-left: 5px;
+}
+
+.movie {
+  margin-top: 10px;
+}

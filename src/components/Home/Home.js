@@ -1,16 +1,18 @@
 import { fetchTrending } from '../../services';
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import HomeItem from './HomeItem';
 
-// console.log(trendingFilms);
+export default function Home({ setPath }) {
+  const location = useLocation();
 
-export default function Home() {
   const [trendingFilms, setTrendingFilms] = useState([]);
   useEffect(() => {
     fetchTrending().then(res => setTrendingFilms([...res.results]));
   }, []);
-
-  // console.log(trendingFilxms);
+  useEffect(() => {
+    setPath(location.pathname + location.search);
+  }, []);
 
   return (
     <>

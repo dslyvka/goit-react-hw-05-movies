@@ -1,42 +1,35 @@
 import { onBtnClick } from '../../services';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import Form from '../Form/Form';
 
-export default function Movies() {
+export default function Movies({ setPath }) {
   const [value, setValue] = useState('');
   const [movies, setMovies] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
+  // console.log(location);
+
+  useEffect(() => {
+    setPath(location.pathname + location.search);
+  }, [location]);
 
   if (location.search !== '' && movies === null) {
-    console.log(location.search.slice(7));
+    // console.log(location.search.slice(7));
     onBtnClick(location.search.slice(7)).then(res => setMovies(res.results));
   }
 
   if (movies === null)
     return (
       <>
-        <hr />
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            onBtnClick(value).then(res => setMovies(res.results));
-            navigate(`${location.pathname}?query=${value}`, {
-              replace: true,
-            });
-          }}
-        >
-          <input
-            type="text"
-            onChange={e => {
-              setValue(e.currentTarget.value);
-              console.log(e.currentTarget.value);
-            }}
-          />
-          <button type="submit">Search</button>
-        </form>
-        <hr />
+        <Form
+          onBtnClick={onBtnClick}
+          setMovies={setMovies}
+          navigate={navigate}
+          location={location}
+          value={value}
+          setValue={setValue}
+        />
         <h2>Enter the movie title</h2>
       </>
     );
@@ -44,66 +37,37 @@ export default function Movies() {
   if (movies.length === 0) {
     return (
       <>
-        <hr />
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            onBtnClick(value).then(res => setMovies(res.results));
-            navigate(`${location.pathname}?query=${value}`, {
-              replace: true,
-            });
-          }}
-        >
-          <input
-            type="text"
-            onChange={e => {
-              setValue(e.currentTarget.value);
-              console.log(e.currentTarget.value);
-            }}
-          />
-          <button type="submit">Search</button>
-        </form>
-
-        <hr />
+        <Form
+          onBtnClick={onBtnClick}
+          setMovies={setMovies}
+          navigate={navigate}
+          location={location}
+          value={value}
+          setValue={setValue}
+        />
         <h2>Enter correct movie title</h2>
       </>
     );
   }
   return (
     <>
-      <hr />
-      <form
-        onSubmit={e => {
-          e.preventDefault();
-          onBtnClick(value).then(res => setMovies(res.results));
-          navigate(`${location.pathname}?query=${value}`, {
-            replace: true,
-          });
-        }}
-      >
-        <input
-          type="text"
-          onChange={e => {
-            setValue(e.currentTarget.value);
-            console.log(e.currentTarget.value);
-          }}
-        />
-        <button type="submit">Search</button>
-      </form>
+      <Form
+        onBtnClick={onBtnClick}
+        setMovies={setMovies}
+        navigate={navigate}
+        location={location}
+        value={value}
+        setValue={setValue}
+      />
 
-      <hr />
-
-      {movies.length > 0 ? (
+      {movies.length > 0 &&
         movies.map(movie => {
           return (
             <li key={movie.id}>
               <Link to={`/movies/${movie.id}`}>{movie.original_title}</Link>
             </li>
           );
-        })
-      ) : (
-        <h2>Enter the correct movie title</h2>
-      )}
+        })}
     </>
   );
 }

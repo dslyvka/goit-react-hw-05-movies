@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { fetchMovieById } from '../../services';
-import { useParams, NavLink, Outlet } from 'react-router-dom';
+import { useParams, NavLink, Outlet, Link } from 'react-router-dom';
 import { MovieStyled } from './Movie.styled';
 
-export default function Movie() {
+export default function Movie({ path }) {
   const [film, setFilm] = useState([]);
   const [genres, setGenres] = useState([]);
+
   useEffect(() => {
     try {
       fetchMovieById(filmId).then(res => {
@@ -17,15 +18,13 @@ export default function Movie() {
     }
   }, []);
   let filmId = useParams().filmId;
-  // console.log(location);
-
-  //   console.log(filmId);
-  // console.log(film);
-  //   console.log(genres);
 
   return (
     <>
-      <article>
+      <Link to={path} className="back">
+        Back
+      </Link>
+      <article className="movie">
         <MovieStyled>
           <img
             src={`https://image.tmdb.org/t/p/original/${film.poster_path}`}
@@ -50,8 +49,12 @@ export default function Movie() {
       <hr />
       <h4>Additional information</h4>
 
-      <NavLink to={`/movies/${filmId}/cast`}>Cast</NavLink>
-      <NavLink to={`/movies/${filmId}/reviews`}>Reviews</NavLink>
+      <NavLink to={`/movies/${filmId}/cast`} className="additional">
+        Cast
+      </NavLink>
+      <NavLink to={`/movies/${filmId}/reviews`} className="additional">
+        Reviews
+      </NavLink>
 
       <hr />
       <Outlet />
